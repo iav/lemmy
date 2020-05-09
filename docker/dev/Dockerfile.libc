@@ -20,7 +20,7 @@ COPY ui /app/ui
 RUN yarn build
 
 
-FROM rust:1.42 as rust
+FROM rust:1.43.1 as rust
 
 # Cache deps
 WORKDIR /app

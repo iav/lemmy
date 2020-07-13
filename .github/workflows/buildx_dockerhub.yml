@@ -3,7 +3,7 @@ name: buildx for dockerhub
 
 on:
   push:
-    branches: [ gh-auto ]
+#    branches: [ gh-auto ]
 
     # Publish `v1.2.3` tags as releases.
     tags:

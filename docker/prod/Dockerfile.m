@@ -18,6 +18,8 @@ COPY --chown=rust:rust server/Cargo.toml server/Cargo.lock ./
 #RUN cargo build --release
 #RUN rm -f ./target/$CARGO_BUILD_TARGET/$RUSTRELEASEDIR/deps/lemmy_server*
 COPY --chown=rust:rust server/src ./src/
+COPY --chown=rust:rust server/lemmy_db ./lemmy_db/
+COPY --chown=rust:rust server/lemmy_utils ./lemmy_utils/
 COPY --chown=rust:rust server/migrations ./migrations/
 #USER root
 #RUN sudo chown -R rust:rust /app/server

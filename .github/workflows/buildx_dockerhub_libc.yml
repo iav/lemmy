@@ -158,19 +158,20 @@ jobs:
       -
         name: Push manifest
         run: |
-          env
-          set -x
+          
+          docker version
           echo "build complete $(date)"
           IMAGE_ID=$IMAGE_NAME
-          docker manifest create $IMAGE_ID:${VERSION}libc \
-            $IMAGE_ID:${VERSION}libc-amd64 \
-            $IMAGE_ID:${VERSION}libc-arm64 \
-            $IMAGE_ID:${VERSION}libc-armv7
-          docker manifest annotate $IMAGE_ID:${VERSION} $IMAGE_ID:${VERSION}libc-armv7 \
+          export DOCKER_CLI_EXPERIMENTAL=enabled
+          docker manifest create $IMAGE_ID:${VERSION} \
+            $IMAGE_ID:${VERSION}-amd64 \
+            $IMAGE_ID:${VERSION}-arm64 \
+            $IMAGE_ID:${VERSION}-armv7
+          docker manifest annotate $IMAGE_ID:${VERSION} $IMAGE_ID:${VERSION}-armv7 \
             --os=linux --arch=arm --variant=v7
-          docker manifest annotate $IMAGE_ID:${VERSION} $IMAGE_ID:${VERSION}libc-arm64 \
+          docker manifest annotate $IMAGE_ID:${VERSION} $IMAGE_ID:${VERSION}-arm64 \
             --os=linux --arch=arm64
-          docker manifest inspect $IMAGE_ID:${VERSION}libc
-          docker manifest push $IMAGE_ID:${VERSION}libc
+          docker manifest inspect $IMAGE_ID:${VERSION}
+          docker manifest push $IMAGE_ID:${VERSION}
 
 

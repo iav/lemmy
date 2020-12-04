@@ -98,15 +98,18 @@ jobs:
           sudo systemctl start docker
 
       -
+        name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+      -
+        name: QEMU Available platforms
+        run: echo ${{ steps.qemu.outputs.platforms }}
+      -
         name: Set up Docker Buildx
         id: buildx
-        uses: crazy-max/ghaction-docker-buildx@v3
-        with:
-          buildx-version: latest
-          qemu-version: latest
-
+        uses: docker/setup-buildx-action@v1
       -
-        name: Available platforms
+        name: builtx vailable platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
 
       - name: Log into registry
@@ -126,7 +129,7 @@ jobs:
           echo ${{ needs.prepare_all_buildx.outputs.IMAGE_ID }}
           docker buildx build \
             --platform ${{ matrix.BUILDXPLATFORM }} \
-            --tag $IMAGE_NAME:${VERSION}libc-${{ matrix.platform }} \
+            --tag $IMAGE_NAME:${VERSION}-${{ matrix.platform }} \
             --progress plain \
             --file docker/prod/Dockerfile.libc \
             --push .
